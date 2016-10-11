@@ -8,14 +8,12 @@ import Register from './jsx/Auth/Register';
 const login = {path: 'login', component: Login};
 const register = {path: 'register', component: Register};
 
-const home = {path: 'home', component: Home};
-
 
 const authMiddleware = (nextState, replace, callback) => {
 
-    const excludePath = ['/login', '/register'];
+    const excludePath = ['', '/', '/login', '/register'];
     const pathname = nextState.location.pathname;
-    
+
     if( excludePath.indexOf(pathname) < 0 ) {
         console.log('需要验证');
         replace('/login');
@@ -32,7 +30,6 @@ const routes = {
     indexRoute: { component: Home },
     onEnter: authMiddleware,
     childRoutes: [
-        home,
         login,
         register
     ]

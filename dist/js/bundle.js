@@ -21515,8 +21515,10 @@
 	    _createClass(App, [{
 	        key: 'render',
 	        value: function render() {
-	            var childRoutePath = this.props.children.props.route.path;
-	            if ('login' == childRoutePath || 'register' == childRoutePath) {
+	            var excludePath = ['', '/', '/login', '/register'];
+	            var childRoutePath = this.props.children.props.location.pathname;
+
+	            if (childRoutePath.indexOf(childRoutePath) >= 0) {
 	                return _react2.default.createElement(
 	                    'div',
 	                    { className: 'app' },
@@ -27644,6 +27646,8 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactRouter = __webpack_require__(173);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27669,11 +27673,29 @@
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'home' },
+	                { className: 'flex-center position-ref full-height' },
 	                _react2.default.createElement(
-	                    'p',
-	                    null,
-	                    'react starter demo Home'
+	                    'div',
+	                    { className: 'top-right links' },
+	                    _react2.default.createElement(
+	                        _reactRouter.Link,
+	                        { to: '/login' },
+	                        'Login'
+	                    ),
+	                    _react2.default.createElement(
+	                        _reactRouter.Link,
+	                        { to: '/register' },
+	                        'Register'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'content' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'title m-b-md' },
+	                        'Welcome'
+	                    )
 	                )
 	            );
 	        }
@@ -27819,11 +27841,9 @@
 	var login = { path: 'login', component: _Login2.default };
 	var register = { path: 'register', component: _Register2.default };
 
-	var home = { path: 'home', component: _Home2.default };
-
 	var authMiddleware = function authMiddleware(nextState, replace, callback) {
 
-	    var excludePath = ['/login', '/register'];
+	    var excludePath = ['', '/', '/login', '/register'];
 	    var pathname = nextState.location.pathname;
 
 	    if (excludePath.indexOf(pathname) < 0) {
@@ -27840,7 +27860,7 @@
 	    component: _App2.default,
 	    indexRoute: { component: _Home2.default },
 	    onEnter: authMiddleware,
-	    childRoutes: [home, login, register]
+	    childRoutes: [login, register]
 	};
 
 	exports.default = routes;

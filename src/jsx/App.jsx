@@ -10,8 +10,10 @@ class App extends React.Component {
         this.displayName = 'App';
     }
     render() {
-        var childRoutePath = this.props.children.props.route.path;
-        if( 'login' == childRoutePath || 'register' == childRoutePath ) {
+        const excludePath = ['', '/', '/login', '/register'];
+        const childRoutePath = this.props.children.props.location.pathname;
+
+        if( childRoutePath.indexOf(childRoutePath) >= 0 ) {
             return (
                 <div className="app">
                     {this.props.children}

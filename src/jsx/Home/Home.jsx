@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Link } from 'react-router';
 
 class Home extends React.Component {
     constructor(props) {
@@ -8,8 +9,16 @@ class Home extends React.Component {
     }
     render() {
         return (
-            <div className="home">
-                <p>react starter demo Home</p>
+            <div className="flex-center position-ref full-height">
+                <div className="top-right links">
+                    <Link to={`/login`}>Login</Link>
+                    <Link to={`/register`}>Register</Link>
+                </div>
+                <div className="content">
+                    <div className="title m-b-md">
+                        Welcome
+                    </div>
+                </div>
             </div>
         );
     }
