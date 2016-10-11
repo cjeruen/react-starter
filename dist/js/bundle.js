@@ -54,36 +54,13 @@
 
 	var _reactRouter = __webpack_require__(173);
 
-	var _App = __webpack_require__(172);
+	var _routes = __webpack_require__(242);
 
-	var _App2 = _interopRequireDefault(_App);
-
-	var _Home = __webpack_require__(239);
-
-	var _Home2 = _interopRequireDefault(_Home);
-
-	var _Login = __webpack_require__(240);
-
-	var _Login2 = _interopRequireDefault(_Login);
-
-	var _Register = __webpack_require__(241);
-
-	var _Register2 = _interopRequireDefault(_Register);
+	var _routes2 = _interopRequireDefault(_routes);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	(0, _reactDom.render)(_react2.default.createElement(
-	    _reactRouter.Router,
-	    { history: _reactRouter.hashHistory },
-	    _react2.default.createElement(
-	        _reactRouter.Route,
-	        { path: '/', component: _App2.default },
-	        _react2.default.createElement(_reactRouter.IndexRoute, { component: _Home2.default }),
-	        _react2.default.createElement(_reactRouter.Route, { path: 'home', component: _Home2.default })
-	    ),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _Login2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/register', component: _Register2.default })
-	), document.getElementById('app'));
+	(0, _reactDom.render)(_react2.default.createElement(_reactRouter.Router, { history: _reactRouter.hashHistory, routes: _routes2.default }), document.getElementById('app'));
 
 /***/ },
 /* 1 */
@@ -21538,6 +21515,14 @@
 	    _createClass(App, [{
 	        key: 'render',
 	        value: function render() {
+	            var childRoutePath = this.props.children.props.route.path;
+	            if ('login' == childRoutePath || 'register' == childRoutePath) {
+	                return _react2.default.createElement(
+	                    'div',
+	                    { className: 'app' },
+	                    this.props.children
+	                );
+	            }
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'app' },
@@ -27802,6 +27787,63 @@
 	}(_react2.default.Component);
 
 	exports.default = Register;
+
+/***/ },
+/* 242 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _App = __webpack_require__(172);
+
+	var _App2 = _interopRequireDefault(_App);
+
+	var _Home = __webpack_require__(239);
+
+	var _Home2 = _interopRequireDefault(_Home);
+
+	var _Login = __webpack_require__(240);
+
+	var _Login2 = _interopRequireDefault(_Login);
+
+	var _Register = __webpack_require__(241);
+
+	var _Register2 = _interopRequireDefault(_Register);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var login = { path: 'login', component: _Login2.default };
+	var register = { path: 'register', component: _Register2.default };
+
+	var home = { path: 'home', component: _Home2.default };
+
+	var authMiddleware = function authMiddleware(nextState, replace, callback) {
+
+	    var excludePath = ['/login', '/register'];
+	    var pathname = nextState.location.pathname;
+
+	    if (excludePath.indexOf(pathname) < 0) {
+	        console.log('需要验证');
+	        replace('/login');
+	    } else {
+	        console.log(pathname);
+	    }
+	    callback();
+	};
+
+	var routes = {
+	    path: '/',
+	    component: _App2.default,
+	    indexRoute: { component: _Home2.default },
+	    onEnter: authMiddleware,
+	    childRoutes: [home, login, register]
+	};
+
+	exports.default = routes;
 
 /***/ }
 /******/ ]);

@@ -10,6 +10,14 @@ class App extends React.Component {
         this.displayName = 'App';
     }
     render() {
+        var childRoutePath = this.props.children.props.route.path;
+        if( 'login' == childRoutePath || 'register' == childRoutePath ) {
+            return (
+                <div className="app">
+                    {this.props.children}
+                </div>
+            );
+        }
         return (
             <div className="app">
                 <Header></Header>
