@@ -1,5 +1,8 @@
 import React from 'react';
 
+import Header from './Common/Header';
+import Footer from './Common/Footer';
+import Content from './Common/Content';
 
 class App extends React.Component {
     constructor(props) {
@@ -9,7 +12,9 @@ class App extends React.Component {
     render() {
         return (
             <div className="app">
-                <h1>react starter demo</h1>
+                <Header></Header>
+                <Content>{this.props.children}</Content>
+                <Footer></Footer>
             </div>
         );
     }
